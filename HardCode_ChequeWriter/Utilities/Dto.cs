@@ -9,7 +9,7 @@ namespace HardCode_ChequeWriter.Utilities
         public string chequePayee { get; set; }
         public string chequeAmount { get; set; }
         public string chequeAmountWords { get; set; }
-        public string chequeDate { get; set; }
+        public string chequeDate { get; set; } 
       
     }
 }

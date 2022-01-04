@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HardCode_ChequeWriter
-{
+{ 
     static class Program
     {
         /// <summary>

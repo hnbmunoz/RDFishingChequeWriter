@@ -3,7 +3,7 @@ namespace HardCode_ChequeWriter
 {
     partial class Form1
     {
-        /// <summary>
+        /// <summary> 
         ///  Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;

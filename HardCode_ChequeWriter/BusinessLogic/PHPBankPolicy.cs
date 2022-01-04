@@ -6,7 +6,7 @@ using System.Text;
 namespace HardCode_ChequeWriter.BusinessLogic
 {
     class PHPBankPolicy
-    { 
+    {  
         Utility utilities = new Utility();
 
         // Standard PHP Format 

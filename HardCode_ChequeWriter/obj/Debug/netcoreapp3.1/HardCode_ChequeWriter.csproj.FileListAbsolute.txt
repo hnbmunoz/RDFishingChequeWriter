@@ -38,7 +38,6 @@ D:\Projects\CodePlayGround\GitHubProjects\RDFI_CodeReview\ChequeWriter\RDFishing
 D:\Projects\CodePlayGround\GitHubProjects\RDFI_CodeReview\ChequeWriter\RDFishingChequeWriter\HardCode_ChequeWriter\obj\Debug\netcoreapp3.1\HardCode_ChequeWriter.AssemblyInfoInputs.cache
 D:\Projects\CodePlayGround\GitHubProjects\RDFI_CodeReview\ChequeWriter\RDFishingChequeWriter\HardCode_ChequeWriter\obj\Debug\netcoreapp3.1\HardCode_ChequeWriter.AssemblyInfo.cs
 D:\Projects\CodePlayGround\GitHubProjects\RDFI_CodeReview\ChequeWriter\RDFishingChequeWriter\HardCode_ChequeWriter\obj\Debug\netcoreapp3.1\HardCode_ChequeWriter.csproj.CoreCompileInputs.cache
-D:\Projects\CodePlayGround\GitHubProjects\RDFI_CodeReview\ChequeWriter\RDFishingChequeWriter\HardCode_ChequeWriter\obj\Debug\netcoreapp3.1\HardCode_ChequeWriter.csproj.CopyComplete
 D:\Projects\CodePlayGround\GitHubProjects\RDFI_CodeReview\ChequeWriter\RDFishingChequeWriter\HardCode_ChequeWriter\obj\Debug\netcoreapp3.1\HardCode_ChequeWriter.dll
 D:\Projects\CodePlayGround\GitHubProjects\RDFI_CodeReview\ChequeWriter\RDFishingChequeWriter\HardCode_ChequeWriter\obj\Debug\netcoreapp3.1\HardCode_ChequeWriter.pdb
 D:\Projects\CodePlayGround\GitHubProjects\RDFI_CodeReview\ChequeWriter\RDFishingChequeWriter\HardCode_ChequeWriter\obj\Debug\netcoreapp3.1\HardCode_ChequeWriter.genruntimeconfig.cache

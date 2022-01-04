@@ -11,7 +11,7 @@ namespace HardCode_ChequeWriter.Utilities
         {
             string Monthcut, daycut, yearcut;
             
-            daycut = xdate.Day.ToString();
+            daycut = xdate.Day.ToString(); 
             yearcut = xdate.Year.ToString();
 
             switch (xdate.Month.ToString())

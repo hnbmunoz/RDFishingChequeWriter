@@ -5,7 +5,7 @@ using System.Text;
 namespace HardCode_ChequeWriter.Utilities
 {
     class ConnectionString
-    {
+    { 
         public  string cstring(string companycode)
         {            
             return "Data Source = EG-Data1\\RDFG; Initial Catalog = " + companycode + "; User ID = hrpro; Password = hrpro";            

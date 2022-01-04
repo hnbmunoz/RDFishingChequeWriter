@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace HardCode_ChequeWriter.Utilities
 {
-    class DataAccess
+    class DataAccess 
     {
         SqlCommand cmd = new SqlCommand();
         SqlDataAdapter da = new SqlDataAdapter();
