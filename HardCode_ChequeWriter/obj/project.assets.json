@@ -459,11 +459,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\RDWorkSpace\\Software\\HardCode_ChequeWriter\\HardCode_ChequeWriter\\HardCode_ChequeWriter.csproj",
+      "projectUniqueName": "D:\\Projects\\CodePlayGround\\GitHubProjects\\RDFI_CodeReview\\ChequeWriter\\RDFishingChequeWriter\\HardCode_ChequeWriter\\HardCode_ChequeWriter.csproj",
       "projectName": "HardCode_ChequeWriter",
-      "projectPath": "D:\\RDWorkSpace\\Software\\HardCode_ChequeWriter\\HardCode_ChequeWriter\\HardCode_ChequeWriter.csproj",
+      "projectPath": "D:\\Projects\\CodePlayGround\\GitHubProjects\\RDFI_CodeReview\\ChequeWriter\\RDFishingChequeWriter\\HardCode_ChequeWriter\\HardCode_ChequeWriter.csproj",
       "packagesPath": "C:\\Users\\Henri Nicholli Munoz\\.nuget\\packages\\",
-      "outputPath": "D:\\RDWorkSpace\\Software\\HardCode_ChequeWriter\\HardCode_ChequeWriter\\obj\\",
+      "outputPath": "D:\\Projects\\CodePlayGround\\GitHubProjects\\RDFI_CodeReview\\ChequeWriter\\RDFishingChequeWriter\\HardCode_ChequeWriter\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
