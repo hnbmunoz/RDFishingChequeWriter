@@ -9,7 +9,7 @@ namespace HardCode_ChequeWriter.EGRepository
 {
     class ExactGlobeRepository
     {
-        DataAccess dataaccess = new DataAccess();
+        DataAccess dataaccess = new DataAccess(); 
         ConnectionString conn = new ConnectionString();
         DataTable maindt = new DataTable();
 
