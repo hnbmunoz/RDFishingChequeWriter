@@ -148,8 +148,9 @@ namespace HardCode_ChequeWriter
             int setter = 250;
             int i = 0;
 
-            e.Graphics.DrawString(dto.chequeDate, new Font("Arial", 10, FontStyle.Bold), Brushes.Black, new Point(15, 5 ));
-            e.Graphics.DrawString(dto.chequePayee, new Font("Arial", 8, FontStyle.Bold), Brushes.Black, new Point(100, 25 ));
+            e.Graphics.DrawString(dto.chequeDate, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 35 ));
+            e.Graphics.DrawString("Payee Account", new Font("Arial", 8, FontStyle.Regular), Brushes.Black, new Point(50, 25 ));
+            e.Graphics.DrawString(dto.chequePayee, new Font("Arial", 8, FontStyle.Regular), Brushes.Black, new Point(150, 65));
             //e.Graphics.DrawString(dto.chequeAmount, new Font("Arial", 10, FontStyle.Bold), Brushes.Black, new Point(30, 29));
             //e.Graphics.DrawString(dto.chequeAmountWords, new Font("Arial", 8, FontStyle.Bold), Brushes.Black, new Point(55, 48));
 
