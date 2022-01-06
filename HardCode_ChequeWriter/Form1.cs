@@ -28,19 +28,20 @@ namespace HardCode_ChequeWriter
         Utility utilities = new Utility();
         PHPBankPolicy policy = new PHPBankPolicy();
         Dto dto = new Dto();
+        bool print = true;
+        string Payee = "";
 
         private void btn_PrintCheque_Click(object sender, EventArgs e)
         {
-            qryForCheque(txtChkNum.Text);
-            printDialog1.Document = printDocument1;
-            if (printDialog1.ShowDialog() == DialogResult.OK)
-            {
-                printDocument1.Print();
-            }
-            
-
+            print = true;           
+            qryForCheque(txtChkNum.Text);           
         }
 
+        private void btnQry_Click(object sender, EventArgs e)
+        {
+            print = false;            
+            qryForCheque(txtChkNum.Text); 
+        }
         #region ToMakeFormDraggable
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -111,15 +112,51 @@ namespace HardCode_ChequeWriter
                 string amt = Chqdt.Rows[0]["AmountDC"].ToString();
                 string date = Chqdt.Rows[0]["StatementDate"].ToString();
 
-                dto.chequeAmount = policy.currencyFormat(amt);
-                dto.chequeAmountWords = utilities.CurrencyFormat(Convert.ToDecimal(amt));
+                //Fix Architecture Later
+                dto.chequeAmountWords = policy.currencyFormat(amt);
+                dto.chequeAmount = utilities.CurrencyFormat(Convert.ToDecimal(amt));
                 dto.chequeDate = policy.dateFormat(date);
                 dto.chequePayee = " ** " + Payee + " ** ";
+                //Fix Architecture Later
+                if (print == true)
+                {
+                    this.Width = 483;
+                    label5.Visible = false;
+                    label6.Visible = false;
+                    label7.Visible = false;
+                    label8.Visible = false;
+
+                    printDialog1.Document = printDocument1;
+                    if (printDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        printDocument1.Print();
+                    }
+                }
+                else
+                {
+                    label5.Text = "Amount : " + dto.chequeAmount;
+                    label6.Text =  dto.chequeAmountWords;
+                    label7.Text = "Payee : " + dto.chequePayee;
+                    label8.Text = "Date : " + dto.chequeDate;
+
+                    this.Width = 834;
+                    label5.Visible = true;
+                    label6.Visible = true;
+                    label7.Visible = true;
+                    label8.Visible = true;                   
+
+                }
 
             }
             else
             {
                 MessageBox.Show("No Data Found");
+
+                this.Width = 483;
+                label5.Visible = false;
+                label6.Visible = false;
+                label7.Visible = false;
+                label8.Visible = false;
             }
         }
 
@@ -132,10 +169,24 @@ namespace HardCode_ChequeWriter
            label3.Text = EGRepo.getCompanyNamebyCode(CompCode);
         }
 
+        private void defaultChqTemplate(System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            e.Graphics.DrawString(dto.chequeDate, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 35));
+            e.Graphics.DrawString(Payee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(40, 35));
+            e.Graphics.DrawString(dto.chequePayee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(150, 70));
+            e.Graphics.DrawString(dto.chequeAmount, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 70));
+            e.Graphics.DrawString(dto.chequeAmountWords, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(150, 95));
+        }
+
        
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadComboBox();
+            radioButton1.Checked = true;
+            label5.Visible = false;
+            label6.Visible = false;
+            label7.Visible = false;
+            label8.Visible = false;
         }
 
         private void drpdowncompany_SelectedIndexChanged(object sender, EventArgs e)
@@ -145,15 +196,10 @@ namespace HardCode_ChequeWriter
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            int setter = 250;
-            int i = 0;
-
-            e.Graphics.DrawString(dto.chequeDate, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 35 ));
-            e.Graphics.DrawString("Payee Account", new Font("Arial", 8, FontStyle.Regular), Brushes.Black, new Point(50, 25 ));
-            e.Graphics.DrawString(dto.chequePayee, new Font("Arial", 8, FontStyle.Regular), Brushes.Black, new Point(150, 65));
-            //e.Graphics.DrawString(dto.chequeAmount, new Font("Arial", 10, FontStyle.Bold), Brushes.Black, new Point(30, 29));
-            //e.Graphics.DrawString(dto.chequeAmountWords, new Font("Arial", 8, FontStyle.Bold), Brushes.Black, new Point(55, 48));
-
+            if (radioButton1.Checked == true)
+            {
+                defaultChqTemplate(e);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -161,5 +207,32 @@ namespace HardCode_ChequeWriter
             Application.Exit();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == true)
+            {
+                Payee = "For Payee's Account";
+            }
+            else
+            {
+                Payee = "";
+            }
+
+        }
     }
 }

@@ -18,8 +18,7 @@ namespace HardCode_ChequeWriter.Utilities
         SqlParameter picture;
         MemoryStream ms = new MemoryStream();
 
-
-        string cnstring = "";
+        //string cnstring = "";
 
         public DataTable getDatatable(string cmdtxt, string cnstring, CommandType cmdType, SqlParameter[] param = null)
         {
@@ -66,20 +65,18 @@ namespace HardCode_ChequeWriter.Utilities
         }
 
 
-        public System.Data.DataSet getDataSet(string cmdtxt)
+        public System.Data.DataSet getDataSet(string cmdtxt, string cnstring)
         {
             SqlConnection connection = new SqlConnection(cnstring);
             string sql = cmdtxt;
             System.Data.DataSet ds = new System.Data.DataSet();
 
-
             connection.Open();
 
             SqlCommand cmd = new SqlCommand(sql, connection);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
-            //   DataSet ds = new DataSet();
+            
             da.Fill(ds);
-
 
             return ds;
         }
@@ -125,7 +122,7 @@ namespace HardCode_ChequeWriter.Utilities
         }
         public string roleid;
        
-        public MemoryStream LoadImage(string cmdtxt)
+        public MemoryStream LoadImage(string cmdtxt, string cnstring)
         {
 
             SqlConnection connection = new SqlConnection(cnstring);
@@ -149,32 +146,19 @@ namespace HardCode_ChequeWriter.Utilities
                 else
                 {
                     ms = new MemoryStream(images);
-
-
                 }
-
-
-
             }
-
-
             connection.Close();
             return ms;
 
-            //return images;
         }
-
-
-
-
-        public void SaveDataWithImage(string cmdtxt, string imagelink)
+        
+        public void SaveDataWithImage(string cmdtxt, string imagelink, string cnstring)
         {
             SqlConnection connection = new SqlConnection(cnstring);
 
             try
             {
-
-
                 connection.Open();
 
                 string sqlQuery = cmdtxt;
@@ -198,28 +182,20 @@ namespace HardCode_ChequeWriter.Utilities
             catch
             {
                 //   MessageBox.Show(" Data not Saved");
-
             }
-
-
-
         }
 
 
 
-        public SqlDataAdapter getDataAdapter(string cmdtxt)
+        public SqlDataAdapter getDataAdapter(string cmdtxt, string cnstring)
         {
             SqlConnection connection = new SqlConnection(cnstring);
             string sql = cmdtxt;
-            //System.Data.DataSet ds = new System.Data.DataSet();
-
-
-
+ 
             connection.Open();
 
             SqlCommand cmd = new SqlCommand(sql, connection);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
-
 
             return da;
         }
