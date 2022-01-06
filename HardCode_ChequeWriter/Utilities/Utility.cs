@@ -7,55 +7,54 @@ namespace HardCode_ChequeWriter.Utilities
 {
     class Utility
     {
-        public string Dateinwords(DateTime xdate)
+        public string Dateinwords(DateTime dateValue)
         {
-            string Monthcut, daycut, yearcut;
-            
-            daycut = xdate.Day.ToString();
-            yearcut = xdate.Year.ToString();
+           string monthCut = "";
+           string dayCut = dateValue.Day.ToString();
+           string yearCut = dateValue.Year.ToString();
 
-            switch (xdate.Month.ToString())
+            switch (dateValue.Month.ToString())
             {
 
                 case "01":
-                    Monthcut = "January";
+                    monthCut = "January";
                     break;
                 case "02":
-                    Monthcut = "February";
+                    monthCut = "February";
                     break;
                 case "03":
-                    Monthcut = "March";
+                    monthCut = "March";
                     break;
                 case "04":
-                    Monthcut = "April";
+                    monthCut = "April";
                     break;
                 case "05":
-                    Monthcut = "May";
+                    monthCut = "May";
                     break;
                 case "06":
-                    Monthcut = "June";
+                    monthCut = "June";
                     break;
                 case "07":
-                    Monthcut = "July";
+                    monthCut = "July";
                     break;
                 case "08":
-                    Monthcut = "August";
+                    monthCut = "August";
                     break;
                 case "09":
-                    Monthcut = "September";
+                    monthCut = "September";
                     break;
                 case "10":
-                    Monthcut = "October";
+                    monthCut = "October";
                     break;
                 case "11":
-                    Monthcut = "November";
+                    monthCut = "November";
                     break;
                 default:
-                    Monthcut = "December";
+                    monthCut = "December";
                     break;
 
             }
-            return  Monthcut + " " + daycut + "," + " " + yearcut;
+            return monthCut + " " + dayCut + "," + " " + yearCut;
         }
 
         public string NumberToWords(long number)
@@ -110,117 +109,97 @@ namespace HardCode_ChequeWriter.Utilities
             return words;
         }
 
-        public string datedifference(DateTime datefrom, DateTime dateto, string returnType)
+        public string datedifference(DateTime dateFrom, DateTime dateTo, string returnCode)
         {
-            string diff = " ";
+            int yearTotal = 0;
+            int monthTotal = 0;
+            int dayTotal = 0;
 
-            int ddatestart = 0;
-            int ddateend = 0;
-            int dmonstart = 0;
-            int lengthservice1 = 0;
-            int dyearstart = 0;
-            int dyearend = 0;
-            int dmonend = 0;
-            int lengthservice2 = 0;
-            int lengthservice3 = 0;
+            int yearDateStart = dateFrom.Year;
+            int monthDateStart = dateFrom.Month;
+            int dayDateStart = dateFrom.Day;
 
-            int yrTot = 0;
-            int mnTot = 0;
-            int dyTot = 0;
+            int yearDateEnd = dateTo.Year;
+            int monthDateEnd = dateTo.Month;
+            int dayDateEnd = dateTo.Day;
 
-            dyearstart = datefrom.Year;
-            dmonstart = datefrom.Month;
-            ddatestart = datefrom.Day;
-
-            dyearend = dateto.Year;
-            dmonend = dateto.Month;
-            ddateend = dateto.Day;
-
-
-            yrTot = dyearend - dyearstart;
-            mnTot = dmonend - dmonstart;
-
-            if (mnTot < 0)
+            
+            yearTotal = yearDateEnd - yearDateStart;
+            monthTotal = monthDateEnd - monthDateStart;
+            
+            if (monthTotal < 0)
             {
-                mnTot = mnTot + 12;
-                yrTot = yrTot - 1;
+                monthTotal = monthTotal + 12;
+                yearTotal = yearTotal - 1;
             }
-            else if (mnTot == 0)
+            else if (monthTotal == 0)
             {
-                if (dyearend == dyearstart)
+                if (yearDateEnd == yearDateStart)
                 {
-                    yrTot = yrTot;
+                    yearTotal = yearTotal;
                 }
-                else if (dyearstart > dyearend)
+                else if (yearDateStart > yearDateEnd)
                 {
-                    yrTot = yrTot + 1;
+                    yearTotal = yearTotal + 1;
                 }
             }
             else
             {
-
-                mnTot = mnTot;
-
-
-
+                monthTotal = monthTotal;
             }
 
             // Computation for Day
-            dyTot = ddateend - ddatestart;
+            dayTotal = dayDateEnd - dayDateStart;
 
-            if (dyTot < 0)
+            if (dayTotal < 0)
             {
-                mnTot = mnTot - 1;
-                if (dmonstart == 2)
+                monthTotal = monthTotal - 1;
+                if (monthDateStart == 2)
                 {
-                    if (dyearstart % 4 == 0 | dyearend % 4 == 0)
+                    if (yearDateStart % 4 == 0 | yearDateEnd % 4 == 0)
                     {
-                        dyTot = dyTot + 29;
+                        dayTotal = dayTotal + 29;
                     }
                 }
-                else if (dmonstart == 2)
+                else if (monthDateStart == 2)
                 {
-                    if (dyearstart % 4 != 0 | dyearend % 4 != 0)
+                    if (yearDateStart % 4 != 0 | yearDateEnd % 4 != 0)
                     {
-                        dyTot = dyTot + 28;
+                        dayTotal = dayTotal + 28;
                     }
                 }
-                if (dmonstart == 1 | dmonstart == 3 | dmonstart == 5 | dmonstart == 7 | dmonstart == 8 | dmonstart == 10 | dmonstart == 12)
+                if (monthDateStart == 1 | monthDateStart == 3 | monthDateStart == 5 | monthDateStart == 7 | monthDateStart == 8 | monthDateStart == 10 | monthDateStart == 12)
                 {
-                    dyTot = dyTot + 31;
+                    dayTotal = dayTotal + 31;
                 }
-                else if (dmonstart == 4 | dmonstart == 6 | dmonstart == 9 | dmonstart == 11)
+                else if (monthDateStart == 4 | monthDateStart == 6 | monthDateStart == 9 | monthDateStart == 11)
                 {
-                    dyTot = dyTot + 30;
+                    dayTotal = dayTotal + 30;
                 }
             }
 
-
-            //If dytot
-            if (dyTot >= 30)
+            if (dayTotal >= 30)
             {
-                mnTot += 1;
-                dyTot = dyTot - 30;
+                monthTotal += 1;
+                dayTotal = dayTotal - 30;
             }
 
 
-            if (returnType == "Full")
+            if (returnCode == "F")
             {
-                diff = yrTot.ToString() + " year/s and " + mnTot.ToString() + " month/s." + dyTot.ToString() + " day/s."; // Complete Details of Gap
-                return diff;
+                return  yearTotal.ToString() + " year/s and " + monthTotal.ToString() + " month/s." + dayTotal.ToString() + " day/s."; // Complete Details of Gap                
+            }            
+            else if (returnCode == "D")
+            {
+                return  (dayTotal + (monthTotal * 30) + ((yearTotal * 12) * 30)).ToString(); // Total Gap in Days                
             }
-            else if (returnType == "Day")
+            else if (returnCode == "M")
             {
-                int TotalDays = dyTot + (mnTot * 30) + ((yrTot * 12) * 30); // Total Gap in Days
-                return TotalDays.ToString();
+                return monthTotal.ToString();
             }
-            else if (returnType == "Month")
+            else if (returnCode == "Y")
             {
-                return mnTot.ToString();
-            }
-            else if (returnType == "Year")
-            {
-                return yrTot.ToString();
+                return yearTotal.ToString();
             }
             else
             {
@@ -230,8 +209,7 @@ namespace HardCode_ChequeWriter.Utilities
         }
 
         public string CurrencyFormat(decimal value)
-        {
-            /// 1115178 051
+        {         
             string converted = "";
             string[] Data = Math.Abs(value).ToString().Split('.');
             int charactercounter = 0;          
@@ -249,7 +227,6 @@ namespace HardCode_ChequeWriter.Utilities
                     converted = Data[0][i] + converted;
                     charactercounter += 1;
                 }
-
             }
 
             if (Data.Length > 1)
