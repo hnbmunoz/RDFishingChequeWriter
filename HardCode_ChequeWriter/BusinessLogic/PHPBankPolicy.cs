@@ -10,7 +10,7 @@ namespace HardCode_ChequeWriter.BusinessLogic
         Utility utilities = new Utility();
 
         // Standard PHP Format 
-        public string currencyFormat(string amount)
+        public string defaultCurrencyFormat(string amount)
         {
             string[] Data = amount.Split('.');
 
@@ -55,15 +55,64 @@ namespace HardCode_ChequeWriter.BusinessLogic
 
         }
 
-        public string dateFormat(string date)
+        public string defaultDateFormat(string date)
         {
            return utilities.Dateinwords(Convert.ToDateTime(date));
         }
         // Standard PHP Format 
 
         // Format for specific banks
+        public string bdoDateFormat(string date)
+        {
+            return "";
+        }
 
+
+        public string penbankDateFormat(string date)
+        {
+            return "";
+        }
         //
+
+        public string chkDateFormat(string date, string policy)
+        {
+            if (policy == "default")
+            {
+                return this.defaultDateFormat(date);
+            }
+            else if (policy == "bdo")
+            {
+                return this.bdoDateFormat(date);
+            }
+            else if (policy == "penbank")
+            {
+                return this.penbankDateFormat(date);
+            }
+            else
+            {
+                return this.defaultDateFormat(date);
+            }
+        }
+
+        public string chkAmountWordsFormat(string amount, string policy)
+        {
+            if (policy == "default")
+            {
+                return this.defaultCurrencyFormat(amount);
+            }
+            //else if (policy == "bdo") //Modify Statement incase of additional policy in format
+            //{
+            //    return this.bdoDateFormat(date);
+            //}
+            //else if (policy == "penbank")
+            //{
+            //    return this.penbankDateFormat(date);
+            //}
+            else
+            {
+                return this.defaultCurrencyFormat(amount);
+            }
+        }
 
     }
 }

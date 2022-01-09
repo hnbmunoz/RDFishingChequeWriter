@@ -84,9 +84,6 @@ namespace HardCode_ChequeWriter.Utilities
 
         public void Execute(string cmdtxt, string cnstring, CommandType cmdType, SqlParameter[] param = null)
         {
-
-
-
            try
             {
                 if (param != null)
