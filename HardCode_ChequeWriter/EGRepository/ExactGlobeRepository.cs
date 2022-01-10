@@ -1,4 +1,6 @@
-﻿using HardCode_ChequeWriter.Utilities;
+﻿using HardCode_ChequeWriter.BusinessLogic;
+using HardCode_ChequeWriter.Models;
+using HardCode_ChequeWriter.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,22 +9,26 @@ using System.Windows.Forms;
 
 namespace HardCode_ChequeWriter.EGRepository
 {
-    class ExactGlobeRepository
+    class ExactGlobeRepository 
     {
         DataAccess dataaccess = new DataAccess();
         ConnectionString conn = new ConnectionString();
         DataTable maindt = new DataTable();
+       
+        PHPBankPolicy phpPolicy = new PHPBankPolicy();
+        Utility utilities = new Utility();
+        ChequeDto dto = new ChequeDto();
 
+       
         public  DataTable LoadComboBox( string drpdownvalue)
-        {
-           
+        {           
             string query = "SELECT tbl1.name,tbl.name FROM(Select* FROM sys.databases where name like '%X%' or name like '%bak%'  or name like '%crew%') as tbl" +
               " right join" +
               " (SELECT * FROM sys.databases  where name like '%0%' or name like '%1%') as tbl1" +
               " ON tbl.name = tbl1.name" +
               " where tbl.name is  null" +
               " order by tbl1.name ";
-            return   dataaccess.getDatatable(query, conn.cstring(drpdownvalue), CommandType.Text);
+            return dataaccess.getDatatable(query, conn.cstring(drpdownvalue), CommandType.Text);
 
         }
         public String getCompanyNamebyCode(string drpdownvalue)
@@ -40,17 +46,27 @@ namespace HardCode_ChequeWriter.EGRepository
            
         }
 
-        public DataTable qryForCheque(string drpdownvalue,string ChkNumber)
+        public ChequeDto getChequeData(string drpDownValue, string chkNumber, string bankPolicy)
         {
-            string query = "SELECT BankTransactions.TransactionNumber, BankTransactions.AmountDC, BankTransactions.OffsetName, " +
-                         //"BankTransactions.ValueDate as DueDate,  Convert(varchar, BankTransactions.StatementDate,110)as StatementDate,BankTransactions.EntryNumber," +
+            string query = "SELECT BankTransactions.TransactionNumber, BankTransactions.AmountDC, BankTransactions.OffsetName, " +                         
                          "BankTransactions.ValueDate as DueDate,  BankTransactions.StatementDate,BankTransactions.EntryNumber," +
                          "cicmpy.crdnr,cicmpy.PayeeName" +
                          " FROM BankTransactions BankTransactions (NOLOCK)" +
                          "LEFT JOIN (SELECT payeeName,crdnr FROM cicmpy (NOLOCK)) cicmpy ON cicmpy.crdnr = BankTransactions.CreditorNumber" +
-                         " WHERE Ltrim(Rtrim(BankTransactions.TransactionNumber)) = Ltrim(Rtrim('" + ChkNumber + "')) AND Ltrim(Rtrim(BankTransactions.PaymentType)) = 'C' " +
+                         " WHERE Ltrim(Rtrim(BankTransactions.TransactionNumber)) = Ltrim(Rtrim('" + chkNumber + "')) AND Ltrim(Rtrim(BankTransactions.PaymentType)) = 'C' " +
                          "AND Ltrim(Rtrim(BankTransactions.PaymentMethod)) = 'C'";
-            return  dataaccess.getDatatable(query, conn.cstring(drpdownvalue), CommandType.Text);
+
+            var result = dataaccess.getDatatable(query, conn.cstring(drpDownValue), CommandType.Text);
+
+            if (result.Rows.Count > 0)
+            {
+                dto.chequeDate = phpPolicy.chkDateFormat(result.Rows[0]["StatementDate"].ToString(), bankPolicy);
+                dto.chequeAmountWords = phpPolicy.chkAmountWordsFormat(result.Rows[0]["AmountDC"].ToString(), bankPolicy);
+                dto.chequeAmount = utilities.CurrencyFormat(Convert.ToDecimal(result.Rows[0]["AmountDC"].ToString()));
+                dto.chequePayee = " ** " + result.Rows[0]["OffsetName"].ToString() + " ** ";
+            }
+
+            return dto;            
 
         }
 

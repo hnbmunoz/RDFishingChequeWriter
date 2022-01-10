@@ -1,5 +1,6 @@
 ﻿using HardCode_ChequeWriter.BusinessLogic;
 using HardCode_ChequeWriter.EGRepository;
+using HardCode_ChequeWriter.Models;
 using HardCode_ChequeWriter.Utilities;
 using System;
 using System.Collections.Generic;
@@ -24,12 +25,16 @@ namespace HardCode_ChequeWriter
 
         DataTable Maindt = new DataTable();
         DataTable Chqdt = new DataTable();//Exclusive DataTable for Cheque Data
-        ExactGlobeRepository EGRepo = new ExactGlobeRepository();
-        Utility utilities = new Utility();
+        //ExactGlobeRepository EGRepo = new ExactGlobeRepository();
+       
+
+        ChqWriter chqwrite = new ChqWriter();//Main Business Logic of Cheque Writer
         PHPBankPolicy policy = new PHPBankPolicy();
-        Dto dto = new Dto();
+        ChequeDto chqPrintModel = new ChequeDto();
         bool print = true;
         string Payee = "";
+        int date_X, date_Y, paccount_X, paccount_Y, payee_X, payee_Y, amount_X, amount_Y, words_X, words_Y;
+        //EnvironmentVariableTarget result
 
         private void btn_PrintCheque_Click(object sender, EventArgs e)
         {
@@ -86,7 +91,7 @@ namespace HardCode_ChequeWriter
         private void LoadComboBox()
         {
             //Default was set to 051  because of on load function 
-            Maindt =  EGRepo.LoadComboBox("051");
+            Maindt = chqwrite.getComboBox("051");
             if (Maindt.Rows.Count > 0)
             { 
                 drpdowncompany.DataSource = Maindt;
@@ -103,21 +108,11 @@ namespace HardCode_ChequeWriter
             // 2176544 054  95,000.00 
             // 2176546 054  17,338.00 5
             // 1115178 051  5,000,000.00
+            chqPrintModel = chqwrite.getChequeData(drpdowncompany.SelectedValue.ToString(), ChkNumber,"default");
 
-            Chqdt =  EGRepo.qryForCheque(drpdowncompany.SelectedValue.ToString(), ChkNumber);
-
-            if (Chqdt.Rows.Count > 0) 
-            {
-                string Payee = Chqdt.Rows[0]["OffsetName"].ToString();
-                string amt = Chqdt.Rows[0]["AmountDC"].ToString();
-                string date = Chqdt.Rows[0]["StatementDate"].ToString();
-
-                //Fix Architecture Later
-                dto.chequeAmountWords = policy.currencyFormat(amt);
-                dto.chequeAmount = utilities.CurrencyFormat(Convert.ToDecimal(amt));
-                dto.chequeDate = policy.dateFormat(date);
-                dto.chequePayee = " ** " + Payee + " ** ";
-                //Fix Architecture Later
+            //if (Chqdt.Rows.Count > 0) 
+            //{
+                
                 if (print == true)
                 {
                     this.Width = 483;
@@ -134,10 +129,10 @@ namespace HardCode_ChequeWriter
                 }
                 else
                 {
-                    label5.Text = "Amount : " + dto.chequeAmount;
-                    label6.Text =  dto.chequeAmountWords;
-                    label7.Text = "Payee : " + dto.chequePayee;
-                    label8.Text = "Date : " + dto.chequeDate;
+                    label5.Text = "Amount : " + chqPrintModel.chequeAmount;// Proper
+                    label6.Text = chqPrintModel.chequeAmountWords;
+                    label7.Text = "Payee : " + chqPrintModel.chequePayee;
+                    label8.Text = "Date : " + chqPrintModel.chequeDate;
 
                     this.Width = 834;
                     label5.Visible = true;
@@ -147,17 +142,17 @@ namespace HardCode_ChequeWriter
 
                 }
 
-            }
-            else
-            {
-                MessageBox.Show("No Data Found");
+            //}
+            //else
+            //{
+            //    MessageBox.Show("No Data Found");
 
-                this.Width = 483;
-                label5.Visible = false;
-                label6.Visible = false;
-                label7.Visible = false;
-                label8.Visible = false;
-            }
+            //    this.Width = 483;
+            //    label5.Visible = false;
+            //    label6.Visible = false;
+            //    label7.Visible = false;
+            //    label8.Visible = false;
+            //}
         }
 
         private void getCompanyNamebyCode(string CompCode) 
@@ -166,19 +161,69 @@ namespace HardCode_ChequeWriter
             {
                 return;
             }
-           label3.Text = EGRepo.getCompanyNamebyCode(CompCode);
+           label3.Text = chqwrite.getCompanyNamebyCode(CompCode);
         }
 
-        private void defaultChqTemplate(System.Drawing.Printing.PrintPageEventArgs e)
+        private void defaultChqTemplate()
         {
-            e.Graphics.DrawString(dto.chequeDate, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 35));
-            e.Graphics.DrawString(Payee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(40, 35));
-            e.Graphics.DrawString(dto.chequePayee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(150, 70));
-            e.Graphics.DrawString(dto.chequeAmount, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 70));
-            e.Graphics.DrawString(dto.chequeAmountWords, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(150, 95));
+            date_X = 600;
+            date_Y = 35;
+
+            paccount_X = 40;
+            paccount_Y = 45;
+
+            payee_X = 150;
+            payee_Y = 70;
+
+            amount_X = 600;
+            amount_Y = 70;
+
+            words_X = 150;
+            words_Y = 95;
+            //e.Graphics.DrawString(chqPrintModel.chequeDate, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 35));
+            //e.Graphics.DrawString(Payee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(40, 35));
+            //e.Graphics.DrawString(chqPrintModel.chequePayee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(150, 70));
+            //e.Graphics.DrawString(chqPrintModel.chequeAmount, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 70));
+            //e.Graphics.DrawString(chqPrintModel.chequeAmountWords, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(150, 95));
+        }
+        private void bdoChqTemplate()
+        {
+            date_X = 600;
+            date_Y = 35;
+
+            paccount_X = 40;
+            paccount_Y = 45;
+
+            payee_X = 150;
+            payee_Y = 70;
+
+            amount_X = 600;
+            amount_Y = 70;
+
+            words_X = 150;
+            words_Y = 95;
+            
+        }
+        private void penbankChqTemplate()
+        {
+            date_X = 600;
+            date_Y = 35;
+
+            paccount_X = 40;
+            paccount_Y = 45;
+
+            payee_X = 150;
+            payee_Y = 70;
+
+            amount_X = 600;
+            amount_Y = 70;
+
+            words_X = 150;
+            words_Y = 95;
+
         }
 
-       
+
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadComboBox();
@@ -198,8 +243,21 @@ namespace HardCode_ChequeWriter
         {
             if (radioButton1.Checked == true)
             {
-                defaultChqTemplate(e);
+                defaultChqTemplate();
             }
+            if (radioButton2.Checked == true)
+            {
+                defaultChqTemplate();
+            }
+            if (radioButton3.Checked == true)
+            {
+                defaultChqTemplate();
+            }
+            e.Graphics.DrawString(chqPrintModel.chequeDate, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(date_X, date_Y));
+            e.Graphics.DrawString(Payee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(paccount_X, paccount_Y));
+            e.Graphics.DrawString(chqPrintModel.chequePayee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(payee_X, payee_Y));
+            e.Graphics.DrawString(chqPrintModel.chequeAmount, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(amount_X, amount_Y));
+            e.Graphics.DrawString(chqPrintModel.chequeAmountWords, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(words_X, words_Y));
         }
 
         private void button1_Click(object sender, EventArgs e)
