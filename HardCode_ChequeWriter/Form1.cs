@@ -25,14 +25,15 @@ namespace HardCode_ChequeWriter
 
         DataTable Maindt = new DataTable();
         DataTable Chqdt = new DataTable();//Exclusive DataTable for Cheque Data
-        ExactGlobeRepository EGRepo = new ExactGlobeRepository();
-        Utility utilities = new Utility();
+        //ExactGlobeRepository EGRepo = new ExactGlobeRepository();
+       
 
         ChqWriter chqwrite = new ChqWriter();//Main Business Logic of Cheque Writer
         PHPBankPolicy policy = new PHPBankPolicy();
         ChequeDto chqPrintModel = new ChequeDto();
         bool print = true;
         string Payee = "";
+        int date_X, date_Y, paccount_X, paccount_Y, payee_X, payee_Y, amount_X, amount_Y, words_X, words_Y;
         //EnvironmentVariableTarget result
 
         private void btn_PrintCheque_Click(object sender, EventArgs e)
@@ -90,7 +91,7 @@ namespace HardCode_ChequeWriter
         private void LoadComboBox()
         {
             //Default was set to 051  because of on load function 
-            Maindt =  EGRepo.LoadComboBox("051");
+            Maindt = chqwrite.getComboBox("051");
             if (Maindt.Rows.Count > 0)
             { 
                 drpdowncompany.DataSource = Maindt;
@@ -160,19 +161,69 @@ namespace HardCode_ChequeWriter
             {
                 return;
             }
-           label3.Text = EGRepo.getCompanyNamebyCode(CompCode);
+           label3.Text = chqwrite.getCompanyNamebyCode(CompCode);
         }
 
-        private void defaultChqTemplate(System.Drawing.Printing.PrintPageEventArgs e)
+        private void defaultChqTemplate()
         {
-            e.Graphics.DrawString(chqPrintModel.chequeDate, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 35));
-            e.Graphics.DrawString(Payee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(40, 35));
-            e.Graphics.DrawString(chqPrintModel.chequePayee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(150, 70));
-            e.Graphics.DrawString(chqPrintModel.chequeAmount, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 70));
-            e.Graphics.DrawString(chqPrintModel.chequeAmountWords, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(150, 95));
+            date_X = 600;
+            date_Y = 35;
+
+            paccount_X = 40;
+            paccount_Y = 45;
+
+            payee_X = 150;
+            payee_Y = 70;
+
+            amount_X = 600;
+            amount_Y = 70;
+
+            words_X = 150;
+            words_Y = 95;
+            //e.Graphics.DrawString(chqPrintModel.chequeDate, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 35));
+            //e.Graphics.DrawString(Payee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(40, 35));
+            //e.Graphics.DrawString(chqPrintModel.chequePayee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(150, 70));
+            //e.Graphics.DrawString(chqPrintModel.chequeAmount, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 70));
+            //e.Graphics.DrawString(chqPrintModel.chequeAmountWords, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(150, 95));
+        }
+        private void bdoChqTemplate()
+        {
+            date_X = 600;
+            date_Y = 35;
+
+            paccount_X = 40;
+            paccount_Y = 45;
+
+            payee_X = 150;
+            payee_Y = 70;
+
+            amount_X = 600;
+            amount_Y = 70;
+
+            words_X = 150;
+            words_Y = 95;
+            
+        }
+        private void penbankChqTemplate()
+        {
+            date_X = 600;
+            date_Y = 35;
+
+            paccount_X = 40;
+            paccount_Y = 45;
+
+            payee_X = 150;
+            payee_Y = 70;
+
+            amount_X = 600;
+            amount_Y = 70;
+
+            words_X = 150;
+            words_Y = 95;
+
         }
 
-       
+
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadComboBox();
@@ -192,8 +243,21 @@ namespace HardCode_ChequeWriter
         {
             if (radioButton1.Checked == true)
             {
-                defaultChqTemplate(e);
+                defaultChqTemplate();
             }
+            if (radioButton2.Checked == true)
+            {
+                defaultChqTemplate();
+            }
+            if (radioButton3.Checked == true)
+            {
+                defaultChqTemplate();
+            }
+            e.Graphics.DrawString(chqPrintModel.chequeDate, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(date_X, date_Y));
+            e.Graphics.DrawString(Payee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(paccount_X, paccount_Y));
+            e.Graphics.DrawString(chqPrintModel.chequePayee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(payee_X, payee_Y));
+            e.Graphics.DrawString(chqPrintModel.chequeAmount, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(amount_X, amount_Y));
+            e.Graphics.DrawString(chqPrintModel.chequeAmountWords, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(words_X, words_Y));
         }
 
         private void button1_Click(object sender, EventArgs e)

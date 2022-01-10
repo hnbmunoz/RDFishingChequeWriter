@@ -25,7 +25,16 @@ namespace HardCode_ChequeWriter.BusinessLogic
            return EGRepo.getChequeData(drpDownValue, chkNumber, bankpolicy);
             
         }
-        
+
+        public DataTable getComboBox(string drpdownvalue)
+        {
+            return  EGRepo.LoadComboBox(drpdownvalue);
+        }
+
+        public string getCompanyNamebyCode(string drpdownvalue)
+        {
+            return EGRepo.getCompanyNamebyCode(drpdownvalue);
+        }
 
     }
 }
