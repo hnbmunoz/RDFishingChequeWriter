@@ -19,22 +19,17 @@ namespace HardCode_ChequeWriter
     {
         public Form1()
         {
-            InitializeComponent();
-            
+            InitializeComponent();            
         }
 
-        DataTable Maindt = new DataTable();
-        DataTable Chqdt = new DataTable();//Exclusive DataTable for Cheque Data
-        //ExactGlobeRepository EGRepo = new ExactGlobeRepository();
-       
-
-        ChqWriter chqwrite = new ChqWriter();//Main Business Logic of Cheque Writer
-        PHPBankPolicy policy = new PHPBankPolicy();
+        DataTable Maindt = new DataTable();            
+        ChqWriter chqwrite = new ChqWriter();//Main Business Logic of Cheque Writer        
         ChequeDto chqPrintModel = new ChequeDto();
+
         bool print = true;
         string Payee = "";
         int date_X, date_Y, paccount_X, paccount_Y, payee_X, payee_Y, amount_X, amount_Y, words_X, words_Y;
-        //EnvironmentVariableTarget result
+        string bankpolicy = "default";        
 
         private void btn_PrintCheque_Click(object sender, EventArgs e)
         {
@@ -108,11 +103,13 @@ namespace HardCode_ChequeWriter
             // 2176544 054  95,000.00 
             // 2176546 054  17,338.00 5
             // 1115178 051  5,000,000.00
-            chqPrintModel = chqwrite.getChequeData(drpdowncompany.SelectedValue.ToString(), ChkNumber,"default");
 
-            //if (Chqdt.Rows.Count > 0) 
-            //{
-                
+            
+            chqPrintModel = chqwrite.getChequeData(drpdowncompany.SelectedValue.ToString(), ChkNumber,bankpolicy);
+
+            if (chqPrintModel.chequePayee != null)
+            {
+
                 if (print == true)
                 {
                     this.Width = 483;
@@ -142,17 +139,17 @@ namespace HardCode_ChequeWriter
 
                 }
 
-            //}
-            //else
-            //{
-            //    MessageBox.Show("No Data Found");
+            }
+            else
+            {
+                MessageBox.Show("No Data Found");
 
-            //    this.Width = 483;
-            //    label5.Visible = false;
-            //    label6.Visible = false;
-            //    label7.Visible = false;
-            //    label8.Visible = false;
-            //}
+                this.Width = 483;
+                label5.Visible = false;
+                label6.Visible = false;
+                label7.Visible = false;
+                label8.Visible = false;
+            }
         }
 
         private void getCompanyNamebyCode(string CompCode) 
@@ -180,49 +177,45 @@ namespace HardCode_ChequeWriter
 
             words_X = 150;
             words_Y = 95;
-            //e.Graphics.DrawString(chqPrintModel.chequeDate, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 35));
-            //e.Graphics.DrawString(Payee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(40, 35));
-            //e.Graphics.DrawString(chqPrintModel.chequePayee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(150, 70));
-            //e.Graphics.DrawString(chqPrintModel.chequeAmount, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(600, 70));
-            //e.Graphics.DrawString(chqPrintModel.chequeAmountWords, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(150, 95));
-        }
-        private void bdoChqTemplate()
-        {
-            date_X = 600;
-            date_Y = 35;
-
-            paccount_X = 40;
-            paccount_Y = 45;
-
-            payee_X = 150;
-            payee_Y = 70;
-
-            amount_X = 600;
-            amount_Y = 70;
-
-            words_X = 150;
-            words_Y = 95;
             
         }
-        private void penbankChqTemplate()
+
+        private void bdoChqTemplate()
         {
-            date_X = 600;
-            date_Y = 35;
+            date_X = 565;
+            date_Y = 23;
 
             paccount_X = 40;
             paccount_Y = 45;
 
             payee_X = 150;
-            payee_Y = 70;
+            payee_Y = 65;
 
             amount_X = 600;
-            amount_Y = 70;
+            amount_Y = 65;
 
             words_X = 150;
-            words_Y = 95;
-
+            words_Y = 91;
         }
 
+        private void penbankChqTemplate()
+        {
+            date_X = 567;
+            date_Y = 30;
+
+            paccount_X = 40;
+            paccount_Y = 45;
+
+            payee_X = 150;
+            payee_Y = 65;
+
+            amount_X = 600;
+            amount_Y = 65;
+
+            words_X = 150;
+            words_Y = 91;
+
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -247,12 +240,13 @@ namespace HardCode_ChequeWriter
             }
             if (radioButton2.Checked == true)
             {
-                defaultChqTemplate();
+                bdoChqTemplate();
             }
             if (radioButton3.Checked == true)
             {
-                defaultChqTemplate();
+                penbankChqTemplate();
             }
+
             e.Graphics.DrawString(chqPrintModel.chequeDate, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(date_X, date_Y));
             e.Graphics.DrawString(Payee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(paccount_X, paccount_Y));
             e.Graphics.DrawString(chqPrintModel.chequePayee, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(payee_X, payee_Y));
@@ -270,14 +264,33 @@ namespace HardCode_ChequeWriter
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void label6_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void label6_Click(object sender, EventArgs e)
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
+            if (radioButton1.Checked == true)
+            {
+                bankpolicy = "default";
+            }
+        }
 
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2.Checked == true)
+            {
+                bankpolicy = "bdo";
+            }
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton3.Checked == true)
+            {
+                bankpolicy = "penbank";
+            }
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
