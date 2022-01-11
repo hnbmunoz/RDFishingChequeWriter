@@ -183,6 +183,7 @@ namespace HardCode_ChequeWriter
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "BDO";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // btn_PrintCheque
             // 
@@ -295,7 +296,7 @@ namespace HardCode_ChequeWriter
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Segoe UI", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label11.Location = new System.Drawing.Point(321, 145);
+            this.label11.Location = new System.Drawing.Point(321, 148);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(162, 12);
             this.label11.TabIndex = 17;
@@ -312,6 +313,7 @@ namespace HardCode_ChequeWriter
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "Pen Bank";
             this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
             // 
             // Form1
             // 

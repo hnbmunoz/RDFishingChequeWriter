@@ -62,17 +62,88 @@ namespace HardCode_ChequeWriter.BusinessLogic
         // Standard PHP Format 
 
         // Format for specific banks
-        public string bdoDateFormat(string date)
+        public string bdoDateFormat(DateTime date)
         {
-            return "";
+            string getMonth = date.Month.ToString();
+            string getDay = date.Day.ToString();
+            string getYear = date.Year.ToString();
+
+            string setDay = "";
+            string setYear = "";
+            string setMonth = "";
+
+            if (getMonth.ToString().Length == 1)
+            {
+                getMonth = "0" + getMonth;
+            }
+            foreach (char m in getMonth)
+            {
+                setMonth = setMonth + "   " + m;
+            }
+
+            if (getDay.ToString().Length == 1)
+            {
+                getDay = "0" + getDay;
+            }
+            foreach (char d in getDay)
+            {
+                setDay = setDay + "   " + d;
+            }
+
+            if (getYear.ToString().Length == 1)
+            {
+                getYear = "0" + getYear;
+            }
+            foreach (char y in getYear)
+            {
+                setYear = setYear + "   " + y;
+            }
+
+
+            return setMonth + "   " + setDay + "   " + setYear;
         }
 
 
-        public string penbankDateFormat(string date)
+        public string penbankDateFormat(DateTime date)
         {
-            return "";
-        }
-        //
+            string getMonth = date.Month.ToString();
+            string getDay = date.Day.ToString();
+            string getYear = date.Year.ToString();
+
+            string setDay = "";
+            string setYear = "";
+            string setMonth = "";
+
+            if (getMonth.ToString().Length == 1)
+            {
+                getMonth = "0" + getMonth;
+            }
+            foreach (char m in getMonth)
+            {
+                setMonth = setMonth + "   " + m;
+            }
+
+            if (getDay.ToString().Length == 1)
+            {
+                getDay = "0" + getDay;
+            }
+            foreach (char d in getDay)
+            {
+                setDay = setDay + "   " + d;
+            }
+
+            if (getYear.ToString().Length == 1)
+            {
+                getYear = "0" + getYear;
+            }
+            foreach (char y in getYear)
+            {
+                setYear = setYear + "   " + y;
+            }
+
+            
+            return setMonth + "   " + setDay + "   " + setYear;
+        }      
 
         public string chkDateFormat(string date, string policy)
         {
@@ -82,11 +153,11 @@ namespace HardCode_ChequeWriter.BusinessLogic
             }
             else if (policy == "bdo")
             {
-                return this.bdoDateFormat(date);
+                return this.bdoDateFormat(Convert.ToDateTime(date));
             }
             else if (policy == "penbank")
             {
-                return this.penbankDateFormat(date);
+                return this.penbankDateFormat(Convert.ToDateTime(date));
             }
             else
             {
@@ -99,15 +170,7 @@ namespace HardCode_ChequeWriter.BusinessLogic
             if (policy == "default")
             {
                 return this.defaultCurrencyFormat(amount);
-            }
-            //else if (policy == "bdo") //Modify Statement incase of additional policy in format
-            //{
-            //    return this.bdoDateFormat(date);
-            //}
-            //else if (policy == "penbank")
-            //{
-            //    return this.penbankDateFormat(date);
-            //}
+            }           
             else
             {
                 return this.defaultCurrencyFormat(amount);
